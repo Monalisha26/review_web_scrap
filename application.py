@@ -4,6 +4,7 @@ import requests
 from bs4 import BeautifulSoup as bs
 from urllib.request import urlopen as uReq
 import pymongo
+from pymongo.mongo_client import MongoClient
 
 application = Flask(__name__) # initializing a flask app
 app=application
@@ -71,7 +72,9 @@ def index():
                 mydict = {"Product": searchString, "Name": name, "Rating": rating, "CommentHead": commentHead,
                           "Comment": custComment}
                 reviews.append(mydict)
-            client = pymongo.MongoClient("mongodb+srv://pwskills:pwskills@cluster0.ln0bt5m.mongodb.net/?retryWrites=true&w=majority")
+            uri = "mongodb+srv://monalishapati22:pwskills@pwskills.pwxqpsk.mongodb.net/?retryWrites=true&w=majority"
+            # Create a new client and connect to the server
+            client = MongoClient(uri)
             db = client['review_scrap']
             review_col = db['review_scrap_data']
             review_col.insert_many(reviews)
